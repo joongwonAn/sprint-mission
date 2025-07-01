@@ -18,7 +18,7 @@ public class AuthController {
 
     // 권한 관리
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity loginUser(@RequestBody LoginRequest request) {
+    public ResponseEntity login(@RequestBody LoginRequest request) {
 
         return ResponseEntity.ok(authService.login(request));
     }
