@@ -58,4 +58,6 @@ public class MessageController {
 
         return ResponseEntity.ok(messageService.findAllByChannelId(channelId));
     }
+
+    //
 }
