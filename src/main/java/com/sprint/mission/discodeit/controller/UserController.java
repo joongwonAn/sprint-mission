@@ -23,7 +23,7 @@ public class UserController {
     private UserStatusService userStatusService;
 
     // 사용자 등록
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody UserCreateRequest request) {
         System.out.println("######### postUser");
         System.out.println("# request = " + request);
