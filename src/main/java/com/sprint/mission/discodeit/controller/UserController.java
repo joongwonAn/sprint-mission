@@ -21,11 +21,10 @@ import java.util.UUID;
 public class UserController {
     private UserService userService;
     private UserStatusService userStatusService;
-    private AuthService authService;
 
     // 사용자 등록
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity createUser(@ModelAttribute UserCreateRequest request) {
+    public ResponseEntity createUser(@RequestBody UserCreateRequest request) {
         System.out.println("######### postUser");
         System.out.println("# request = " + request);
 
@@ -70,12 +69,5 @@ public class UserController {
         System.out.println("# request = " + request);
 
         return ResponseEntity.ok(userStatusService.updateByUserId(userId, request));
-    }
-
-    // 권한 관리
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity loginUser(@RequestBody LoginRequest request) {
-
-        return ResponseEntity.ok(authService.login(request));
     }
 }
