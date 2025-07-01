@@ -1,9 +1,10 @@
 package com.sprint.mission.discodeit.controller;
 
-import com.sprint.mission.discodeit.dto.data.UserDto;
+import com.sprint.mission.discodeit.dto.request.LoginRequest;
 import com.sprint.mission.discodeit.dto.request.UserCreateRequest;
 import com.sprint.mission.discodeit.dto.request.UserStatusUpdateRequest;
 import com.sprint.mission.discodeit.dto.request.UserUpdateRequest;
+import com.sprint.mission.discodeit.service.AuthService;
 import com.sprint.mission.discodeit.service.UserService;
 import com.sprint.mission.discodeit.service.UserStatusService;
 import lombok.AllArgsConstructor;
@@ -11,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +21,7 @@ import java.util.UUID;
 public class UserController {
     private UserService userService;
     private UserStatusService userStatusService;
+    private AuthService authService;
 
     // 사용자 등록
     @RequestMapping(method = RequestMethod.POST)
@@ -70,5 +70,12 @@ public class UserController {
         System.out.println("# request = " + request);
 
         return ResponseEntity.ok(userStatusService.updateByUserId(userId, request));
+    }
+
+    // 권한 관리
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity loginUser(@RequestBody LoginRequest request) {
+
+        return ResponseEntity.ok(authService.login(request));
     }
 }
