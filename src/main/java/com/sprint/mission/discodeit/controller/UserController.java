@@ -1,3 +1,4 @@
+/*
 package com.sprint.mission.discodeit.controller;
 
 import com.sprint.mission.discodeit.dto.data.UserDto;
@@ -72,3 +73,4 @@ public class UserController {
         return ResponseEntity.ok(userStatusService.updateByUserId(userId, request));
     }
 }
+*/
