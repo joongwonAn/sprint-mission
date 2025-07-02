@@ -13,6 +13,7 @@ import com.sprint.mission.discodeit.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -40,13 +41,17 @@ public class BasicMessageService implements MessageService {
 
         List<UUID> attachmentIds = binaryContentCreateRequests.stream()
                 .map(attachmentRequest -> {
-                    String fileName = attachmentRequest.fileName();
-                    String contentType = attachmentRequest.contentType();
-                    byte[] bytes = attachmentRequest.bytes();
+                    try{
+                        String fileName = attachmentRequest.fileName();
+                        String contentType = attachmentRequest.contentType();
+                        byte[] bytes = attachmentRequest.file().getBytes();
 
-                    BinaryContent binaryContent = new BinaryContent(fileName, (long) bytes.length, contentType, bytes);
-                    BinaryContent createdBinaryContent = binaryContentRepository.save(binaryContent);
-                    return createdBinaryContent.getId();
+                        BinaryContent binaryContent = new BinaryContent(fileName, (long) bytes.length, contentType, bytes);
+                        BinaryContent createdBinaryContent = binaryContentRepository.save(binaryContent);
+                        return createdBinaryContent.getId();
+                    } catch (IOException e) {
+                        throw new IllegalArgumentException("Failed to read attachment file", e);
+                    }
                 })
                 .toList();
 

@@ -7,6 +7,7 @@ import com.sprint.mission.discodeit.service.BinaryContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -18,16 +19,20 @@ public class BasicBinaryContentService implements BinaryContentService {
 
     @Override
     public BinaryContent create(BinaryContentCreateRequest request) {
-        String fileName = request.fileName();
-        byte[] bytes = request.bytes();
-        String contentType = request.contentType();
-        BinaryContent binaryContent = new BinaryContent(
-                fileName,
-                (long) bytes.length,
-                contentType,
-                bytes
-        );
-        return binaryContentRepository.save(binaryContent);
+        try {
+            String fileName = request.fileName();
+            byte[] bytes = request.file().getBytes();
+            String contentType = request.contentType();
+            BinaryContent binaryContent = new BinaryContent(
+                    fileName,
+                    (long) bytes.length,
+                    contentType,
+                    bytes
+            );
+            return binaryContentRepository.save(binaryContent);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Failed to read BinaryContent file", e);
+        }
     }
 
     @Override

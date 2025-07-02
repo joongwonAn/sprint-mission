@@ -14,6 +14,7 @@ import com.sprint.mission.discodeit.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,7 +30,7 @@ public class BasicUserService implements UserService {
     private final UserStatusRepository userStatusRepository;
 
     @Override
-    public User create(UserCreateRequest userCreateRequest) {
+    public UserDto create(UserCreateRequest userCreateRequest) {
         String username = userCreateRequest.username();
         String email = userCreateRequest.email();
         Optional<BinaryContentCreateRequest> optionalProfileCreateRequest = userCreateRequest.profileImageDto();
@@ -42,16 +43,23 @@ public class BasicUserService implements UserService {
         }
 
         UUID nullableProfileId = optionalProfileCreateRequest
-                .map(profileRequest -> {
-                    String fileName = profileRequest.fileName();
-                    String contentType = profileRequest.contentType();
-                    byte[] bytes = profileRequest.bytes();
-                    BinaryContent binaryContent = new BinaryContent(fileName, (long) bytes.length, contentType, bytes);
-                    return binaryContentRepository.save(binaryContent).getId();
-                })
-                .orElse(null);
-        String password = userCreateRequest.password();
+                .filter(dto -> dto.file() != null && !dto.file().isEmpty())
+                .map(dto -> {
+                    try {
+                        byte[] bytes = dto.file().getBytes();
+                        BinaryContent binaryContent = new BinaryContent(
+                                dto.fileName(),
+                                (long) bytes.length,
+                                dto.contentType(),
+                                bytes
+                        );
+                        return binaryContentRepository.save(binaryContent).getId();
+                    } catch (IOException e) {
+                        throw new IllegalArgumentException("Failed to read file", e);
+                    }
+                }).orElse(null);
 
+        String password = userCreateRequest.password();
         User user = new User(username, email, password, nullableProfileId);
         User createdUser = userRepository.save(user);
 
@@ -59,7 +67,7 @@ public class BasicUserService implements UserService {
         UserStatus userStatus = new UserStatus(createdUser.getId(), now);
         userStatusRepository.save(userStatus);
 
-        return createdUser;
+        return toDto(createdUser);
     }
 
     @Override
@@ -79,7 +87,7 @@ public class BasicUserService implements UserService {
 
     @Override
     public User update(UUID userId, UserUpdateRequest userUpdateRequest) {
-        User user = userRepository.findById(userId)
+        /*User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User with id " + userId + " not found"));
 
         String newUsername = userUpdateRequest.newUsername();
@@ -109,7 +117,8 @@ public class BasicUserService implements UserService {
         String newPassword = userUpdateRequest.newPassword();
         user.update(newUsername, newEmail, newPassword, nullableProfileId);
 
-        return userRepository.save(user);
+        return userRepository.save(user);*/
+        return null;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.sprint.mission.discodeit.controller;
 
+import com.sprint.mission.discodeit.dto.data.UserDto;
 import com.sprint.mission.discodeit.dto.request.UserCreateRequest;
 import com.sprint.mission.discodeit.dto.request.UserStatusUpdateRequest;
 import com.sprint.mission.discodeit.dto.request.UserUpdateRequest;
@@ -21,7 +22,7 @@ public class UserController {
 
     // 사용자 등록
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity createUser(@RequestBody UserCreateRequest request) {
+    public ResponseEntity<UserDto> createUser(@ModelAttribute UserCreateRequest request) {
         System.out.println("######### postUser");
         System.out.println("# request = " + request);
 
