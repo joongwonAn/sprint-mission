@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/mission4/users")
+@RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
     private UserService userService;
     private UserStatusService userStatusService;
 
     // 사용자 등록
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody UserCreateRequest request) {
         System.out.println("######### postUser");
         System.out.println("# request = " + request);
@@ -29,8 +29,8 @@ public class UserController {
     }
 
     // 사용자 수정
-    @RequestMapping(value = "/{userId}", method = RequestMethod.PATCH)
-    public ResponseEntity updateUser(@PathVariable UUID userId,
+    @RequestMapping(value = "/{user-id}", method = RequestMethod.PATCH)
+    public ResponseEntity updateUser(@PathVariable("user-id") UUID userId,
                                      @RequestBody UserUpdateRequest request) {
         System.out.println("######### patchUser");
         System.out.println("# userId = " + userId);
@@ -40,8 +40,8 @@ public class UserController {
     }
 
     // 사용자 삭제
-    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteUser(@PathVariable UUID userId) {
+    @RequestMapping(value = "/{user-id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteUser(@PathVariable("user-id") UUID userId) {
         System.out.println("######### deleteUser");
         System.out.println("# userId = " + userId);
 
@@ -59,8 +59,8 @@ public class UserController {
     }
 
     // 사용자의 온라인 상태 업데이트
-    @RequestMapping(value = "/{userId}/status", method = RequestMethod.PATCH)
-    public ResponseEntity updateUserStatus(@PathVariable UUID userId,
+    @RequestMapping(value = "/{user-id}/status", method = RequestMethod.PATCH)
+    public ResponseEntity updateUserStatus(@PathVariable("user-id") UUID userId,
                                            @RequestBody UserStatusUpdateRequest request) {
         System.out.println("######### patchUserStatus");
         System.out.println("# request = " + request);

@@ -39,8 +39,8 @@ public class ChannelController {
     }
 
     // 공개 채널 정보 수정
-    @RequestMapping(value = "/public/{channelId}", method = RequestMethod.PATCH)
-    public ResponseEntity updatePublicChannel(@PathVariable UUID channelId,
+    @RequestMapping(value = "/public/{channel-id}", method = RequestMethod.PATCH)
+    public ResponseEntity updatePublicChannel(@PathVariable("channel-id") UUID channelId,
                                               @RequestBody PublicChannelUpdateRequest request) {
         System.out.println("######### updatePublicChannel");
         System.out.println("# request = " + request);
@@ -50,8 +50,8 @@ public class ChannelController {
     }
 
     // 채널 삭제
-    @RequestMapping(value = "/{channelId}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteChannel(@PathVariable UUID channelId) {
+    @RequestMapping(value = "/{channel-id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteChannel(@PathVariable("channel-id") UUID channelId) {
         System.out.println("######### deleteChannel");
         System.out.println("# channelId = " + channelId);
 
@@ -61,8 +61,8 @@ public class ChannelController {
     }
 
     // 특정 사용자가 볼 수 있는 모든 채널 목록 조회 (사용자 구독 채널)
-    @RequestMapping(value = "/{userId}/all", method = RequestMethod.GET)
-    public ResponseEntity findAllChannelsByUserId(@PathVariable UUID userId) {
+    @RequestMapping(value = "users/{user-id}", method = RequestMethod.GET)
+    public ResponseEntity findAllChannelsByUserId(@PathVariable("user-id") UUID userId) {
         System.out.println("######### findAllChannelsByUserId");
         System.out.println("# userId = " + userId);
 

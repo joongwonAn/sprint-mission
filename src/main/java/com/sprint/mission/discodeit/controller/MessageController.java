@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/mission4/messages")
+@RequestMapping("/messages")
 @AllArgsConstructor
 public class MessageController {
     private final MessageService messageService;
 
     // 메시지 보내기
-    @RequestMapping(value = "/send", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity sendMessage(@RequestBody MessageCreateRequest request) {
         System.out.println("######### sendMessage");
         System.out.println("# request = " + request);
@@ -30,8 +30,8 @@ public class MessageController {
     }
 
     // 메시지 수정
-    @RequestMapping(value = "/{messageId}", method = RequestMethod.PATCH)
-    public ResponseEntity updateMessage(@PathVariable UUID messageId,
+    @RequestMapping(value = "/{message-id}", method = RequestMethod.PATCH)
+    public ResponseEntity updateMessage(@PathVariable("message-id") UUID messageId,
                                         @RequestBody MessageUpdateRequest request) {
         System.out.println("######### updateMessage");
         System.out.println("# request = " + request);
@@ -40,8 +40,8 @@ public class MessageController {
     }
 
     // 메시지 삭제
-    @RequestMapping(value = "/{messageId}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteMessage(@PathVariable UUID messageId) {
+    @RequestMapping(value = "/{message-id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteMessage(@PathVariable("message-id") UUID messageId) {
         System.out.println("######### deleteMessage");
         System.out.println("# messageId = " + messageId);
 
@@ -51,13 +51,11 @@ public class MessageController {
     }
 
     // 특정 채널의 메시지 목록 조회
-    @RequestMapping(value = "/{channelId}", method = RequestMethod.GET)
-    public ResponseEntity findAllMessagesByChannelId(@PathVariable UUID channelId) {
+    @RequestMapping(value = "channels/{channel-id}/message", method = RequestMethod.GET)
+    public ResponseEntity findAllMessagesByChannelId(@PathVariable("channel-id") UUID channelId) {
         System.out.println("######### findAllMessagesByChannelId");
         System.out.println("# channelId = " + channelId);
 
         return ResponseEntity.ok(messageService.findAllByChannelId(channelId));
     }
-
-    //
 }
