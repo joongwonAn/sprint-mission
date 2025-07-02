@@ -43,7 +43,7 @@ public class UserController {
 
     // 사용자 삭제
     @RequestMapping(value = "/{user-id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteUser(@PathVariable("user-id") UUID userId) {
+    public ResponseEntity<Void> deleteUser(@PathVariable("user-id") UUID userId) {
         System.out.println("######### deleteUser");
         System.out.println("# userId = " + userId);
 
