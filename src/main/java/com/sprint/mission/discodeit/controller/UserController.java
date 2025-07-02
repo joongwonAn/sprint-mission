@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -31,7 +32,7 @@ public class UserController {
 
     // 사용자 수정
     @RequestMapping(value = "/{user-id}", method = RequestMethod.PATCH)
-    public ResponseEntity updateUser(@PathVariable("user-id") UUID userId,
+    public ResponseEntity<UserDto> updateUser(@PathVariable("user-id") UUID userId,
                                      @RequestBody UserUpdateRequest request) {
         System.out.println("######### patchUser");
         System.out.println("# userId = " + userId);
@@ -53,7 +54,7 @@ public class UserController {
 
     // 모든 사용자 조회
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity findAllUsers() {
+    public ResponseEntity<List<UserDto>> findAllUsers() {
         System.out.println("######### findAllUsers");
 
         return ResponseEntity.ok(userService.findAll());
@@ -61,11 +62,13 @@ public class UserController {
 
     // 사용자의 온라인 상태 업데이트
     @RequestMapping(value = "/{user-id}/status", method = RequestMethod.PATCH)
-    public ResponseEntity updateUserStatus(@PathVariable("user-id") UUID userId,
+    public ResponseEntity<Void> updateUserStatus(@PathVariable("user-id") UUID userId,
                                            @RequestBody UserStatusUpdateRequest request) {
         System.out.println("######### patchUserStatus");
         System.out.println("# request = " + request);
 
-        return ResponseEntity.ok(userStatusService.updateByUserId(userId, request));
+        userStatusService.updateByUserId(userId, request);
+
+        return ResponseEntity.noContent().build();
     }
 }

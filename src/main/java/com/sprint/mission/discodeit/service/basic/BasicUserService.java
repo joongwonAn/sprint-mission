@@ -86,8 +86,8 @@ public class BasicUserService implements UserService {
     }
 
     @Override
-    public User update(UUID userId, UserUpdateRequest userUpdateRequest) {
-        /*User user = userRepository.findById(userId)
+    public UserDto update(UUID userId, UserUpdateRequest userUpdateRequest) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User with id " + userId + " not found"));
 
         String newUsername = userUpdateRequest.newUsername();
@@ -103,22 +103,25 @@ public class BasicUserService implements UserService {
 
         UUID nullableProfileId = optionalNewProfileImage
                 .map(profileRequest -> {
-                    Optional.ofNullable(user.getProfileId())
-                            .ifPresent(binaryContentRepository::deleteById);
+                    try {
+                        Optional.ofNullable(user.getProfileId())
+                                .ifPresent(binaryContentRepository::deleteById);
 
-                    String fileName = profileRequest.fileName();
-                    String contentType = profileRequest.contentType();
-                    byte[] bytes = profileRequest.bytes();
-                    BinaryContent binaryContent = new BinaryContent(fileName, (long) bytes.length, contentType, bytes);
-                    return binaryContentRepository.save(binaryContent).getId();
+                        String fileName = profileRequest.fileName();
+                        String contentType = profileRequest.contentType();
+                        byte[] bytes = profileRequest.file().getBytes();
+                        BinaryContent binaryContent = new BinaryContent(fileName, (long) bytes.length, contentType, bytes);
+                        return binaryContentRepository.save(binaryContent).getId();
+                    } catch (IOException e) {
+                        throw new IllegalArgumentException("Failed to read profile img file", e);
+                    }
                 })
                 .orElse(null);
 
         String newPassword = userUpdateRequest.newPassword();
         user.update(newUsername, newEmail, newPassword, nullableProfileId);
 
-        return userRepository.save(user);*/
-        return null;
+        return toDto(userRepository.save(user));
     }
 
     @Override
