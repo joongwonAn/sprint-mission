@@ -26,7 +26,7 @@ public class UserController {
         System.out.println("######### postUser");
         System.out.println("# request = " + request);
 
-        return ResponseEntity.ok(userService.create(request, Optional.empty()));
+        return ResponseEntity.ok(userService.create(request));
     }
 
     // 사용자 수정
@@ -37,7 +37,7 @@ public class UserController {
         System.out.println("# userId = " + userId);
         System.out.println("# request = " + request);
 
-        return ResponseEntity.ok(userService.update(userId, request, Optional.empty()));
+        return ResponseEntity.ok(userService.update(userId, request));
     }
 
     // 사용자 삭제
