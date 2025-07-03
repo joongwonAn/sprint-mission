@@ -1,5 +1,6 @@
 package com.sprint.mission.discodeit.controller;
 
+import com.sprint.mission.discodeit.dto.data.UserDto;
 import com.sprint.mission.discodeit.dto.request.LoginRequest;
 import com.sprint.mission.discodeit.service.AuthService;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class AuthController {
 
     // 권한 관리
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity login(@RequestBody LoginRequest request) {
+    public ResponseEntity<UserDto> login(@RequestBody LoginRequest request) {
 
         return ResponseEntity.ok(authService.login(request));
     }
