@@ -33,7 +33,7 @@ public class UserController {
     // 사용자 수정
     @RequestMapping(value = "/{user-id}", method = RequestMethod.PATCH)
     public ResponseEntity<UserDto> updateUser(@PathVariable("user-id") UUID userId,
-                                     @RequestBody UserUpdateRequest request) {
+                                              @RequestBody UserUpdateRequest request) {
         System.out.println("######### patchUser");
         System.out.println("# userId = " + userId);
         System.out.println("# request = " + request);
@@ -63,7 +63,7 @@ public class UserController {
     // 사용자의 온라인 상태 업데이트
     @RequestMapping(value = "/{user-id}/status", method = RequestMethod.PATCH)
     public ResponseEntity<Void> updateUserStatus(@PathVariable("user-id") UUID userId,
-                                           @RequestBody UserStatusUpdateRequest request) {
+                                                 @RequestBody UserStatusUpdateRequest request) {
         System.out.println("######### patchUserStatus");
         System.out.println("# request = " + request);
 
