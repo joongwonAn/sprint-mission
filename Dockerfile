@@ -17,11 +17,11 @@ COPY src ./src
 # Gradle Wrapper로 빌드(bootJar)
 RUN ./gradlew --no-daemon clean bootJar -x test
 
-# 환경변수 설정
+# 런타임 환경변수
 ARG PROJECT_NAME
 ARG PROJECT_VERSION
-ENV PROJECT_NAME=discodeit
-ENV PROJECT_VERSION=1.2-M8
+ENV PROJECT_NAME=${PROJECT_NAME}
+ENV PROJECT_VERSION=${PROJECT_VERSION}
 ENV JAVA_OPTS=""
 
 #실행 단계
