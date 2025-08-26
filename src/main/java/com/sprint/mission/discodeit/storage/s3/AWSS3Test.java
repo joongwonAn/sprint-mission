@@ -27,7 +27,7 @@ public class AWSS3Test implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        String bucket = properties.getS3().getBucket();
+        String bucket = properties.getBucket();
 
         // 0. 테스트용 파일 생성
         Path testFile = Paths.get("test.txt");
@@ -39,8 +39,8 @@ public class AWSS3Test implements CommandLineRunner {
                 .credentialsProvider(
                         StaticCredentialsProvider.create(
                                 AwsBasicCredentials.create(
-                                        properties.getCredentials().getAccessKey(),
-                                        properties.getCredentials().getSecretKey()
+                                        properties.getAccessKey(),
+                                        properties.getSecretKey()
                                 )
                         )
                 )
@@ -69,8 +69,8 @@ public class AWSS3Test implements CommandLineRunner {
                 .credentialsProvider(
                         StaticCredentialsProvider.create(
                                 AwsBasicCredentials.create(
-                                        properties.getCredentials().getAccessKey(),
-                                        properties.getCredentials().getSecretKey()
+                                        properties.getAccessKey(),
+                                        properties.getSecretKey()
                                 )
                         )
                 ).build();
