@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.UUID;
 
+// TODO: 예외처리 할때, 비즈니스 예외로 변환해서 던지시고 전역 예외 처리하는곳에서 처리하도록 변경
 @Component
 @ConditionalOnProperty(name = "discodeit.storage.type", havingValue = "s3")
 public class S3BinaryContentStorage implements BinaryContentStorage {
