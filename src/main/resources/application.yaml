@@ -1,4 +1,9 @@
 spring:
+  sql:
+    init:
+      encoding: UTF-8
+      mode: never
+
   application:
     name: discodeit
   servlet:
@@ -9,15 +14,8 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     open-in-view: false
-  profiles:
-    active:
-      - dev
-  sql:
-    init:
-      encoding: UTF-8
-      mode: always
 
 management:
   endpoints:
